@@ -16,29 +16,46 @@ class _BMIScreenState extends State<BMIScreen> {
   final TextEditingController weightController = TextEditingController();
   final TextEditingController ageController = TextEditingController();
 
+  String? heightError;
+  String? weightError;
+  String? ageError;
+
   double? bmi;
   String category = "";
   String gender = "";
 
   void calculateBMI() {
-    if (heightController.text.isNotEmpty && weightController.text.isNotEmpty) {
-      double height = double.parse(heightController.text) / 100;
-      double weight = double.parse(weightController.text);
+    setState(() {
+      heightError = _validateInput(heightController.text);
+      weightError = _validateInput(weightController.text);
+      ageError = _validateInput(ageController.text);
+    });
 
-      bmi = weight / pow(height, 2);
+    if (heightError != null || weightError != null || ageError != null) return;
 
-      if (bmi! < 18.5) {
-        category = "Kurus";
-      } else if (bmi! >= 18.5 && bmi! < 24.9) {
-        category = "Ideal";
-      } else if (bmi! >= 25 && bmi! < 29.9) {
-        category = "Gemuk";
-      } else {
-        category = "Obesitas";
-      }
-
-      setState(() {});
+    double height = double.parse(heightController.text) / 100;
+    double weight = double.parse(weightController.text);
+    bmi = weight / pow(height, 2);
+    if (bmi! < 18.5) {
+      category = "Kurus";
+    } else if (bmi! >= 18.5 && bmi! < 24.9) {
+      category = "Ideal";
+    } else if (bmi! >= 25 && bmi! < 29.9) {
+      category = "Gemuk";
+    } else {
+      category = "Obesitas";
     }
+    setState(() {});
+  }
+
+  String? _validateInput(String value) {
+    if (value.isEmpty) {
+      return 'Kolom harus diisi';
+    }
+    if (double.tryParse(value) == null) {
+      return 'Input harus berupa angka';
+    }
+    return null;
   }
 
   @override
@@ -92,18 +109,21 @@ class _BMIScreenState extends State<BMIScreen> {
               controller: heightController,
               label: "Tinggi (cm)",
               icon: Icons.height,
+              errorText: heightError,
             ),
             const SizedBox(height: 20),
             InputField(
               controller: weightController,
               label: "Berat (kg)",
               icon: Icons.monitor_weight,
+              errorText: weightError,
             ),
             const SizedBox(height: 20),
             InputField(
               controller: ageController,
               label: "Usia (tahun)",
               icon: Icons.cake,
+              errorText: ageError,
             ),
             const SizedBox(height: 15),
             ElevatedButton(
@@ -126,7 +146,13 @@ class _BMIScreenState extends State<BMIScreen> {
               ),
             ),
             const SizedBox(height: 20),
-            if (bmi != null) ResultCard(bmi: bmi!, category: category, gender: gender, age: ageController.text),
+            if (bmi != null)
+              ResultCard(
+                bmi: bmi!,
+                category: category,
+                gender: gender,
+                age: ageController.text,
+              ),
           ],
         ),
       ),
