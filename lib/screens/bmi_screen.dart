@@ -84,75 +84,83 @@ class _BMIScreenState extends State<BMIScreen> {
           ),
         ),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            const Text(
-              'Masukkan Data',
-              style: TextStyle(
-                fontSize: 26,
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
-              ),
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: 20),
-            GenderToggle(
-              gender: gender,
-              onGenderChanged: (selectedGender) {
-                setState(() {
-                  gender = selectedGender;
-                });
-              },
-            ),
-            const SizedBox(height: 20),
-            InputField(
-              controller: heightController,
-              label: "Tinggi (cm)",
-              icon: Icons.height,
-              errorText: heightError,
-            ),
-            const SizedBox(height: 20),
-            InputField(
-              controller: weightController,
-              label: "Berat (kg)",
-              icon: Icons.monitor_weight,
-              errorText: weightError,
-            ),
-            const SizedBox(height: 20),
-            InputField(
-              controller: ageController,
-              label: "Usia (tahun)",
-              icon: Icons.cake,
-              errorText: ageError,
-            ),
-            const SizedBox(height: 15),
-            ElevatedButton(
-              onPressed: calculateBMI,
-              style: ElevatedButton.styleFrom(
-                padding: const EdgeInsets.symmetric(vertical: 16),
-                backgroundColor: Colors.indigo,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20),
+            Expanded(
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    const Text(
+                      'Masukkan Data',
+                      style: TextStyle(
+                        fontSize: 26,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 20),
+                    GenderToggle(
+                      gender: gender,
+                      onGenderChanged: (selectedGender) {
+                        setState(() {
+                          gender = selectedGender;
+                        });
+                      },
+                    ),
+                    const SizedBox(height: 20),
+                    InputField(
+                      controller: heightController,
+                      label: "Tinggi (cm)",
+                      icon: Icons.height,
+                      errorText: heightError,
+                    ),
+                    const SizedBox(height: 20),
+                    InputField(
+                      controller: weightController,
+                      label: "Berat (kg)",
+                      icon: Icons.monitor_weight,
+                      errorText: weightError,
+                    ),
+                    const SizedBox(height: 20),
+                    InputField(
+                      controller: ageController,
+                      label: "Usia (tahun)",
+                      icon: Icons.cake,
+                      errorText: ageError,
+                    ),
+                    const SizedBox(height: 15),
+                    ElevatedButton(
+                      onPressed: calculateBMI,
+                      style: ElevatedButton.styleFrom(
+                        padding: const EdgeInsets.symmetric(vertical: 16),
+                        backgroundColor: Colors.indigo,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        elevation: 50,
+                      ),
+                      child: const Text(
+                        "Hitung BMI",
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    if (bmi != null)
+                      ResultCard(
+                        bmi: bmi!,
+                        category: category,
+                        gender: gender,
+                        age: ageController.text,
+                      ),
+                  ],
                 ),
-                elevation: 50,
-              ),
-              child: const Text(
-                "Hitung BMI",
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
-                ),
               ),
             ),
-            const SizedBox(height: 20),
-            if (bmi != null)
-              ResultCard(
-                bmi: bmi!,
-                category: category,
-                gender: gender,
-                age: ageController.text,
-              ),
           ],
         ),
       ),
