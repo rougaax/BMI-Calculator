@@ -40,7 +40,6 @@ class _BMIScreenState extends State<BMIScreen> {
     if (heightController.text.isNotEmpty && weightController.text.isNotEmpty) {
       double height = double.parse(heightController.text) / 100;
       double weight = double.parse(weightController.text);
-      age = int.parse(ageController.text);
 
       bmi = weight / pow(height, 2);
 
