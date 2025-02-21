@@ -29,15 +29,18 @@ class BMIScreen extends StatefulWidget {
 class _BMIScreenState extends State<BMIScreen> {
   final TextEditingController heightController = TextEditingController();
   final TextEditingController weightController = TextEditingController();
+  final TextEditingController ageController = TextEditingController();
 
   double? bmi;
   String category = "";
-  String gender = "Laki-laki";
+  String gender = "";
+  int? age;
 
   void calculateBMI() {
     if (heightController.text.isNotEmpty && weightController.text.isNotEmpty) {
       double height = double.parse(heightController.text) / 100;
       double weight = double.parse(weightController.text);
+      age = int.parse(ageController.text);
 
       bmi = weight / pow(height, 2);
 
@@ -106,7 +109,15 @@ class _BMIScreenState extends State<BMIScreen> {
               label: "Berat (kg)",
               icon: Icons.monitor_weight,
             ),
-            const SizedBox(height: 30),
+            const SizedBox(height: 20),
+            _buildInputFields(
+              controller: ageController,
+              label: "Usia (tahun)",
+              icon: Icons.cake,
+            ),
+            const SizedBox(height: 8),
+
+            const SizedBox(height: 15),
             ElevatedButton(
               onPressed: calculateBMI,
               style: ElevatedButton.styleFrom(
@@ -115,7 +126,7 @@ class _BMIScreenState extends State<BMIScreen> {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20),
                 ),
-                elevation: 8,
+                elevation: 50,
               ),
               child: const Text(
                 "Hitung BMI",
@@ -125,7 +136,7 @@ class _BMIScreenState extends State<BMIScreen> {
                     color: Colors.white),
               ),
             ),
-            const SizedBox(height: 25),
+            const SizedBox(height: 20),
             if (bmi != null) _buildResultCard(),
           ],
         ),
@@ -228,6 +239,15 @@ class _BMIScreenState extends State<BMIScreen> {
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
                   color: Colors.black),
+            ),
+            const SizedBox(height: 10),
+            Text(
+              "Usia: ${ageController.text} tahun",
+              style: const TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                color: Colors.black,
+              ),
             ),
           ],
         ),
